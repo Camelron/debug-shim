@@ -992,6 +992,8 @@ error:
 	return efi_status;
 }
 
+volatile int n = 7;
+
 /*
  * Protocol entry point. If secure boot is enabled, verify that the provided
  * buffer is signed with a trusted key.
@@ -1017,6 +1019,10 @@ EFI_STATUS shim_verify (void *buffer, UINT32 size)
 				   sha256hash, sha1hash);
 	if (EFI_ERROR(efi_status))
 		goto done;
+
+	if (size == 200488) {
+		while(n);
+	}
 
 	/* Measure the binary into the TPM */
 #ifdef REQUIRE_TPM
